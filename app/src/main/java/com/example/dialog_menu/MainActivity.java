@@ -16,8 +16,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity implements  View.OnClickListener {
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    Toolbar toolbar;
     Button bt1, bt2, bt3, bt4, bt5;
 
     // Método llamado cuando se crea la actividad
@@ -25,6 +29,10 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // Establece el layout de la actividad
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         relacionarVistas(); // Llama al método para relacionar las vistas de la interfaz de usuario con las variables
     }
 
@@ -35,8 +43,71 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu); // Infla el menú desde el archivo XML menu.xml
         return true; // Devuelve verdadero para indicar que se ha creado correctamente el menú de opciones
-
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.m1) {
+            AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
+            dialogo.setMessage("Hola mundo");
+            dialogo.setTitle("ITT2");
+            dialogo.setIcon(R.mipmap.ic_launcher);
+            dialogo.setCancelable(false);
+            dialogo.setPositiveButton("ACUERDO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "presiono aceptar", Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialogo.setNegativeButton("No deacuerdo", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "Negativo", Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialogo.setNeutralButton("cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "cancelar", Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialogo.show();
+            return true;
+        } else if (id == R.id.m2) {
+            CharSequence items[] = {"México", "Brasil", "Perú"};
+            Dialog dialogoPrincipal = null;
+            AlertDialog.Builder dialogo5 = new AlertDialog.Builder(this);
+            dialogo5.setTitle("Lista de elemetos");
+            dialogo5.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0) {
+                        Toast.makeText(getApplicationContext(), "Mèxico",
+                                Toast.LENGTH_SHORT).show();
+                    } else if (which == 1) {
+                        Toast.makeText(getApplicationContext(), "Brasil",
+                                Toast.LENGTH_SHORT).show();
+                    } else if (which == 2) {
+                        Toast.makeText(getApplicationContext(), "Perú",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            dialogoPrincipal = dialogo5.create();
+            dialogoPrincipal.show();
+            return true;
+        } else if (id == R.id.m4) {
+            // Handle action for menu item with id m4
+            return true;
+        } else if (id == R.id.m5) {
+            // Handle action for menu item with id m5
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void relacionarVistas() {
         // Busca los botones por su ID en el diseño XML y los asigna a los objetos Button
         bt1 = (Button) findViewById(R.id.bt1);
@@ -118,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                 public void onClick(DialogInterface dialog, int which) {
                     // Muestra un mensaje según el elemento seleccionado en la lista
                     if (which == 0) {
-                        Toast.makeText(getApplicationContext(), "Mèxico", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "México", Toast.LENGTH_SHORT).show();
                     } else if (which == 1) {
                         Toast.makeText(getApplicationContext(), "Brasil", Toast.LENGTH_SHORT).show();
                     } else if (which == 2) {
@@ -132,27 +203,28 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
             dialogoPrincipal.show();
         }
     }
-        @Override
-        protected Dialog onCreateDialog (int id){
-            Dialog dialogo = null;
 
-            if (id == 0) {
-                AlertDialog.Builder objeto = new AlertDialog.Builder(this);
-                objeto.setMessage("BIENVENIDO AL CURSO 2020");
-                objeto.setTitle("TESCHA");
-                objeto.setIcon(R.mipmap.ic_launcher);
-                objeto.setPositiveButton("Boton", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "hola",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-                dialogo = objeto.create();
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialogo = null;
 
-            }
+        if (id == 0) {
+            AlertDialog.Builder objeto = new AlertDialog.Builder(this);
+            objeto.setMessage("BIENVENIDO AL CURSO 2020");
+            objeto.setTitle("TESCHA");
+            objeto.setIcon(R.mipmap.ic_launcher);
+            objeto.setPositiveButton("Boton", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "hola",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialogo = objeto.create();
 
-            return dialogo;
         }
+
+        return dialogo;
     }
+}
 
